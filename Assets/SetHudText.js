@@ -30,10 +30,14 @@ function Update () {
 			text = LoadData.rtText;
 			break;		
 		case "MT":
-			text = "Events from: "+LoadData.countryText+" Category: "+LoadData.categoryText;
+			var catText = LoadData.categoryText==""?"":" Category: "+LoadData.categoryText;
+			text = "Events from: "+LoadData.countryText+catText;
 			break;
 		case "MB":
 			text = LoadData.weatherText;
+			break;
+		case "CM":
+			text = LoadData.loadingText;
 			break;
 		default:
 			text = "Unknown component";

@@ -12,8 +12,9 @@ public static var rbText="Click marker to select event";
 public static var ltText="No event selected";
 public static var rtText="Use arrow keys to move the earth";
 public static var countryText="United States";
-public static var categoryText="Music";
+public static var categoryText="music";
 public static var weatherText="";
+public static var loadingText="";
 
 
 function Start () {
@@ -34,6 +35,7 @@ function Start () {
 		sr.Close();
 		var jsonObjCF = JSON.Parse(fileContents);
 		var eventC = jsonObjCF["total_items"].AsInt;
+		
 		var inc = eventC%pgsz==0?0:1;
 		var pageCount = eventC/pgsz+inc;
 		for (var m = 1;m<=pageCount;m++){
@@ -76,9 +78,11 @@ function Start () {
 			var jsonObjC = JSON.Parse(countData);
 			
 			var totalItems = jsonObjC["total_items"].AsInt;
+			
 			inc = totalItems%pgsz==0?0:1;
 			pageCount = totalItems/pgsz+inc;
-			
+			loadingText = "Loading.. Completed 0/"+totalItems;
+
 			for (var j = 1;j<=pageCount;j++){
 				var pageNum = "&page_number="+j;
 				var www: WWW = new WWW(url+pageNum);
@@ -92,14 +96,19 @@ function Start () {
 					var jsonObjU = JSON.Parse(data);
 					var temp = jsonObjU["events"]["event"];
 					var count = temp.Count;
-//					var current = transform.eulerAngles;
-//					transform.eulerAngles = Vector3.zero;
+					var current = transform.eulerAngles;
+					transform.eulerAngles = Vector3.zero;
 					for(var k=0;k<count;k++){
 						allEvents.push(temp[k]);
 						drawSphere(temp[k]);
 
 					}
-//					transform.eulerAngles = current;
+					transform.eulerAngles = current;
+					if(j==pageCount){
+						loadingText = "";
+					}else{
+						loadingText = "Loading.. Completed "+j*100+"/"+totalItems;
+					}
 				}
 			}
 		

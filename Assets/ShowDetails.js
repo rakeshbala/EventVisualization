@@ -13,22 +13,25 @@ function Update () {
 }
 
 function OnMouseDown(){
-	LoadData.lbText = event["title"];
-	LoadData.rbText = event["city_name"];
-	LoadData.ltText = event["venue_name"];
-	LoadData.rtText = event["start_time"]; 
+	LoadData.weatherText= "Weather: Loading..." ;
+	LoadData.lbText = "Event title: "+event["title"].Value;
+	LoadData.rbText = "City: "+event["city_name"].Value;
+	LoadData.ltText = "Venue: "+event["venue_name"].Value;
+	LoadData.rtText = "Start time: "+event["start_time"].Value; 
 	var lat = event["latitude"].AsFloat;
 	var lon = event["longitude"].AsFloat;
-	//var url = "http://forecast.weather.gov/MapClick.php?lat="+lat.ToString("F5")+"&lon="+lon.ToString("F5")+"&FcstType=json";
-	var url = "http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=2de143494c0b295cca9337e1e96b00e0";
+	var url = "http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=f71d3212c24ebe8282a9bf42e71ad368";
 	Debug.Log(url);
 	var wwwW: WWW = new WWW(url);
 	yield wwwW;
 	if(wwwW.error){
 			Debug.Log(wwwW.error);
+			LoadData.weatherText= "" ;
+
 	}else{
 		var jsonObjW = JSON.Parse(wwwW.text);
-		Debug.Log("Weather is "+jsonObjW["weather"][0]["description"]);	 
+		LoadData.weatherText = "Weather: "+jsonObjW["weather"][0]["description"].Value;
+		Debug.Log(jsonObjW["weather"][0]["description"]+Random.value);	 
 	}
 
 	 

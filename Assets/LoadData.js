@@ -11,14 +11,16 @@ public static var lbText="Use w/s to zoom in/out";
 public static var rbText="Click marker to select event";
 public static var ltText="No event selected";
 public static var rtText="Use arrow keys to move the earth";
-
+public static var countryText="United States";
+public static var categoryText="Music";
+public static var weatherText="";
 
 
 function Start () {
 	var t: System.DateTime = System.DateTime.Now;
     var dateString = String.Format("{0:D2}{1:D2}{2:D2}", t.Day, t.Month, t.Year);
     var country = "United%20States";
-    country="India";
+//    country="India";
     var fileName = dateString+"_"+country;
     var fullPath = Application.dataPath + "/" + fileName;
 	var pgsz = 100;
@@ -54,8 +56,8 @@ function Start () {
     	Debug.Log("From url");
 		var urlBase = "http://api.eventful.com/json/events/search?";
 		var appKey = "app_key=D4WVJt3mRXKmGNLk";
-		var category = "&category=music";
-		category="";
+		var category = "&category="+categoryText;
+//		category="";
 		var location = "&location="+country;
 		var date = "&date=today";
 		var format = "&format=json";
@@ -90,15 +92,14 @@ function Start () {
 					var jsonObjU = JSON.Parse(data);
 					var temp = jsonObjU["events"]["event"];
 					var count = temp.Count;
-					var current = transform.eulerAngles;
-					transform.eulerAngles = Vector3.zero;
+//					var current = transform.eulerAngles;
+//					transform.eulerAngles = Vector3.zero;
 					for(var k=0;k<count;k++){
 						allEvents.push(temp[k]);
 						drawSphere(temp[k]);
 
 					}
-					transform.eulerAngles = current;
-//					Debug.Log(temp);		
+//					transform.eulerAngles = current;
 				}
 			}
 		
@@ -141,4 +142,11 @@ function drawSphere(event)
 
 function Update () {
 	
+}
+
+
+
+function OnMouseDown(){
+	
+	Debug.Log("Sphere clicked");
 }

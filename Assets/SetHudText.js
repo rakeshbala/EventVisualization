@@ -29,6 +29,12 @@ function Update () {
 		case "RT":
 			text = LoadData.rtText;
 			break;		
+		case "MT":
+			text = "Events from: "+LoadData.countryText+" Category: "+LoadData.categoryText;
+			break;
+		case "MB":
+			text = LoadData.weatherText;
+			break;
 		default:
 			text = "Unknown component";
 			Debug.Log("Unknown text");
